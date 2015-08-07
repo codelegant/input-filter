@@ -1,0 +1,25 @@
+{
+    "name": "input-filter",
+    "title": "InputFilter",
+    "description": "Filter your input",
+    "version": "0.1.0",
+    "author": {
+        "name": "Laichuanfeng",
+        "email": "laichuanfeng@hotmail.com",
+        "url": "https://github.com/Wayou"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": ""
+        }
+    ],
+    "bugs": "",
+    "homepage": "",
+    "docs": "",
+    "demo":"",
+    "download": "",
+    "dependencies": {
+        "jquery": ">=1.5"
+    }
+}
