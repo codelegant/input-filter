@@ -1,11 +1,15 @@
-;(function ($, win, doc, undefined) {
+;if (typeof jQuery === 'undefined') {
+    throw new Error("InputFilter's JavaScript requires jQuery")
+}
+(function($, win, doc, undefined) {
     'use strict';
-    var EventHandler = function (element, options) {
+
+    var InputFilter = function(element, options) {
         this.options = options;
         this.element = element;
     };
-    EventHandler.prototype = {
-        digitFilter: function () {
+    InputFilter.prototype = {
+        digitFilter: function() {
             var value = this.element.value,
                 options = this.options;
             if (value === undefined) {
@@ -21,7 +25,7 @@
             }
             return value;
         },
-        alphaFilter: function () {
+        alphaFilter: function() {
             var value = this.element.value,
                 options = this.options;
             if (value === undefined) {
@@ -44,7 +48,7 @@
             }
             return value;
         },
-        alnumFilter: function () {
+        alnumFilter: function() {
             var value = this.element.value,
                 options = this.options;
             if (value === undefined) {
@@ -68,24 +72,26 @@
             return value;
         }
     };
-    $.fn.inputFilter = function (options) {
+    $.fn.inputFilter = function(options) {
         options = $.extend({}, $.fn.inputFilter.options, options || {});
         var elements = this;
-        return elements.each(function () {
+        return elements.each(function() {
             var element = this,
-                eventHandler = new EventHandler(element, options);
+                valueChange = options.valueChange,
+                inputFilter = new InputFilter(element, options),
+                eventHandler = function() {
+                    this.value = inputFilter[options.type + "Filter"]();
+                    valueChange(this, this.value);
+                    return this;
+                };
             try {
                 if ("\v" === "v") {
-                    element.attachEvent("onpropertychange", function () {
-                        return element.value = eventHandler[options.type + "Filter"]();
-                    });
+                    element.attachEvent("onpropertychange", eventHandler);
                 } else {
-                    element.addEventListener("input", function () {
-                        return element.value = eventHandler[options.type + "Filter"]();
-                    });
+                    element.addEventListener("input", eventHandler);
                 }
             } catch (e) {
-                console.error(e.name + ": " + e.message);
+                throw new Error(e.name + ": " + e.message);
             }
             return this;
         });
@@ -96,6 +102,8 @@
         "max": Infinity,
         "uppercase": true,
         "lowercase": true,
-        "transform": "uppercase"
+        "transform": null,
+        "valueChange": function(element, value) {}
+
     };
 })(jQuery, window, document);
