@@ -82,7 +82,6 @@
                 eventHandler = function() {
                     this.value = inputFilter[options.type + "Filter"]();
                     valueChange(this, this.value);
-                    return this;
                 };
             try {
                 if ("\v" === "v") {
