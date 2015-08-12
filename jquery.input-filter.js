@@ -80,22 +80,25 @@ if (typeof jQuery === 'undefined') {
             var element = this,
                 valueChange = options.valueChange,
                 inputFilter = new InputFilter(element, options),
-                eventHandler = function() {
-                    var oldValue = element.value;
+                eventHandler = function(event) {
+                    var filterValue=inputFilter[options.type + "Filter"]();
+                    console.log("filterValue: "+filterValue);
                     if (typeof options.length === "number") {
-                        element.value = inputFilter[options.type + "Filter"]().slice(0, options.length);
-                    } else {
-                        element.value = inputFilter[options.type + "Filter"]();
+                        filterValue=filterValue.slice(0, options.length);
                     }
-                    if (oldValue === element.value) {
-                        valueChange(this, this.value);
-                    }
+                    timeout=setTimeout(function(){
+                        element.value=filterValue;
+                    },100);
+                    console.log("value: "+element.value);
+                    valueChange(element, element.value);
                 };
             try {
-                if ("\v" === "v") {
-                    element.attachEvent("onpropertychange", eventHandler);
+                if (element.addEventListener) {
+                    element.addEventListener("input", eventHandler, false);
                 } else {
-                    element.addEventListener("input", eventHandler);
+                    element.attachEvent("onpropertychange", function() {
+                        return eventHandler.call(element);
+                    });
                 }
             } catch (e) {
                 throw new Error(e.name + ": " + e.message);

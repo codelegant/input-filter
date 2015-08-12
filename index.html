@@ -1,0 +1,36 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>InputFilter</title>
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+	<script src="jquery.input-filter.js"></script>
+</head>
+<body>
+<div class="col-md-offset-4 col-md-4">
+	<input id="filter" type="text" class="form-control">
+</div>
+<script>
+	(function(){
+/*		var doc=document;
+		function eventHandler(){
+			console.log(this);
+			console.log("fuck");
+			function setValue(element){
+				element.value="stack";
+			}
+			setTimeout(setValue,100);
+		}
+		var target=doc.getElementById("filter");
+        target.attachEvent("onpropertychange", function() {
+            return eventHandler.call(target);
+        });*/
+
+		$("#filter").inputFilter({
+			type:"digit",
+			max:100
+		});
+	}());
+</script>
+</body>
+</html>
