@@ -1,5 +1,4 @@
-;
-if (typeof jQuery === 'undefined') {
+;if (typeof jQuery === 'undefined') {
     throw new Error("InputFilter's JavaScript requires jQuery")
 }
 (function($, win, doc, undefined) {
@@ -81,15 +80,8 @@ if (typeof jQuery === 'undefined') {
                 valueChange = options.valueChange,
                 inputFilter = new InputFilter(element, options),
                 eventHandler = function() {
-                    var oldValue = element.value;
-                    if (typeof options.length === "number") {
-                        element.value = inputFilter[options.type + "Filter"]().slice(0, options.length);
-                    } else {
-                        element.value = inputFilter[options.type + "Filter"]();
-                    }
-                    if (oldValue === element.value) {
-                        valueChange(this, this.value);
-                    }
+                    this.value = inputFilter[options.type + "Filter"]();
+                    valueChange(this, this.value);
                 };
             try {
                 if ("\v" === "v") {
@@ -105,7 +97,6 @@ if (typeof jQuery === 'undefined') {
     };
     $.fn.inputFilter.options = {
         "type": "alnum",
-        "length": null,
         "min": 0,
         "max": Infinity,
         "uppercase": true,
