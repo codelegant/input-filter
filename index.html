@@ -13,22 +13,22 @@
 <script>
 	(function(){
 /*		var doc=document;
-		function eventHandler(){
-			console.log(this);
-			console.log("fuck");
-			function setValue(element){
-				element.value="stack";
-			}
-			setTimeout(setValue,100);
+		function eventHandler(event){
+		var event=event||window.event;
+		this.value=this.value+"vlaue";
+		if(event.preventDefault) event.preventDefault();
+		if(event.returnValue)event.returnValue=false;
+		return false;
 		}
 		var target=doc.getElementById("filter");
-        target.attachEvent("onpropertychange", function() {
-            return eventHandler.call(target);
+        target.attachEvent("onpropertychange", function(event) {
+            return eventHandler.call(target,event);
         });*/
 
 		$("#filter").inputFilter({
 			type:"digit",
-			max:100
+			max:100,
+			length:2
 		});
 	}());
 </script>
