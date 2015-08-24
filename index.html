@@ -12,7 +12,7 @@
 </div>
 <script>
 	(function(){
-		var doc=document;
+/*		var doc=document;
 		function eventHandler(event){
 			var event=event||window.event;
 			value=this.value;
@@ -27,8 +27,8 @@
 		var target=doc.getElementById("filter");
         target.attachEvent("onpropertychange", function(event) {
             return eventHandler.call(target,event);
-        });
-/*		var count=0;
+        });*/
+		var count=0;
 		$("#filter").inputFilter({
 			type:"digit",
 			max:100,
@@ -36,7 +36,7 @@
 			valueChange:function(){
 				console.info(count++);
 			}
-		});*/
+		});
 	}());
 </script>
 </body>

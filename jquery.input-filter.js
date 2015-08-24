@@ -15,8 +15,7 @@ if (typeof jQuery === 'undefined') {
 				options = this.options;
 			if (value === undefined) {
 				this.element.value = "";
-			} else {
-				if (!/^[1-9]\d*$/.test(value) || value > options.max) {
+			} else if ((!/^[1-9]\d*$/.test(value) && value !== "") || value > options.max) {
 					//如果输出不符合预期，则进行过滤
 					value = value.replace(/[^\d]+/g, "");
 					if (options.min !== null && value < options.min) {
@@ -25,10 +24,9 @@ if (typeof jQuery === 'undefined') {
 					if (options.max !== null && value > options.max) {
 						value = options.max;
 					}
-					this.element.value=value;
+					this.element.value = value;
+					console.info("test");
 					return false;
-				}
-				console.info("test");
 			}
 		},
 		alphaFilter: function() {
