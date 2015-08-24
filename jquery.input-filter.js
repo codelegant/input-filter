@@ -14,10 +14,9 @@ if (typeof jQuery === 'undefined') {
 			var value = this.element.value,
 				options = this.options;
 			if (value === undefined) {
-				value = " ";
+				this.element.value = "";
 			} else {
 				if (!/^[1-9]\d*$/.test(value) || value > options.max) {
-					console.info(!/^[1-9]\d*$/.test(value) || value > options.max);
 					//如果输出不符合预期，则进行过滤
 					value = value.replace(/[^\d]+/g, "");
 					if (options.min !== null && value < options.min) {
@@ -26,9 +25,11 @@ if (typeof jQuery === 'undefined') {
 					if (options.max !== null && value > options.max) {
 						value = options.max;
 					}
+					this.element.value=value;
+					return false;
 				}
+				console.info("test");
 			}
-			return value;
 		},
 		alphaFilter: function() {
 			var value = this.element.value,
@@ -86,15 +87,16 @@ if (typeof jQuery === 'undefined') {
 				valueChange = options.valueChange,
 				inputFilter = new InputFilter(element, options),
 				eventHandler = function(event) {
-					var filterValue = inputFilter[options.type + "Filter"]();
+					inputFilter[options.type + "Filter"]();
+					valueChange(element, element.value);
+					/*var filterValue = inputFilter[options.type + "Filter"]();
 					if (typeof options.length === "number" && options.type !== "digit") {
 						filterValue = filterValue.slice(0, options.length);
 					}
-					var timeout = setTimeout(function() {
-						element.value = filterValue;
-					}, 100);
+					
+					element.value = filterValue;
+					return false;*/
 					//console.log("value: " + element.value);
-					valueChange(element, element.value);
 				};
 			try {
 				if (element.addEventListener) {
