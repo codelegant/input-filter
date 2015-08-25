@@ -13,10 +13,10 @@ if (typeof jQuery === 'undefined') {
 		digitFilter: function() {
 			var value = this.element.value,
 				options = this.options;
-			if (value === undefined) {
+			if (value === undefined || value === "") {
 				this.element.value = "";
 				return false;
-			} else if ((!/^[1-9]\d*$/.test(value) && value !== "") || value > options.max) {
+			} else if (!/^[1-9]\d*$/.test(value) || value > options.max) {
 				//如果输出不符合预期，则进行过滤
 				value = value.replace(/[^\d]+/g, "");
 				if (options.min !== null && value < options.min) {
@@ -26,7 +26,6 @@ if (typeof jQuery === 'undefined') {
 					value = options.max;
 				}
 				this.element.value = value;
-				console.info("test");
 				return false;
 			}
 			return true;
@@ -35,7 +34,9 @@ if (typeof jQuery === 'undefined') {
 			var value = this.element.value,
 				options = this.options;
 			if (value === undefined) {
-				value = "";
+				this.element.value = "";
+				return false;
+			} else if (value === "") {
 				return false;
 			} else {
 				var reg;
@@ -46,14 +47,21 @@ if (typeof jQuery === 'undefined') {
 				} else {
 					reg = /[^a-z]+/g;
 				}
-				value = value.replace(reg, "");
-				if (options.transform === "uppercase") {
-					value = value.toUpperCase();
-				} else if (options.transform === "lowercase") {
-					value = value.toLocaleLowerCase();
+				if (reg.test(value) && value !== "") {
+					value = value.replace(reg, "");
+					if (options.transform === "uppercase") {
+						value = value.toUpperCase();
+					} else if (options.transform === "lowercase") {
+						value = value.toLowerCase();
+					}
+					this.element.value = value;
+					return false;
+				} else if (typeof options.length === "number" && value.length > options.length) {
+					this.element.value = value.slice(0, options.length);
+					return false;
 				}
 			}
-			return value;
+			return true;
 		},
 		alnumFilter: function() {
 			var value = this.element.value,
@@ -75,6 +83,9 @@ if (typeof jQuery === 'undefined') {
 				} else if (options.transform === "lowercase") {
 					value = value.toLocaleLowerCase();
 				}
+				if (typeof options.length === "number") {
+					value = value.slice(0, options.length);
+				}
 			}
 			return value;
 		}
@@ -89,12 +100,11 @@ if (typeof jQuery === 'undefined') {
 				inputFilter = new InputFilter(element, options),
 				mark = true,
 				eventHandler = function(event) {
-					console.info(inputFilter[options.type + "Filter"]());
 					//inputFilter[options.type + "Filter"]()第一次执行永远返回true
 					//如果有第二次，则返回false
 					//以此限制valueChange()只能执行一次
 					if (inputFilter[options.type + "Filter"]()) {
-					valueChange(element, element.value);
+						valueChange(element, element.value);
 					}
 					/*var filterValue = inputFilter[options.type + "Filter"]();
 					if (typeof options.length === "number" && options.type !== "digit") {
