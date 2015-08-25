@@ -15,25 +15,28 @@ if (typeof jQuery === 'undefined') {
 				options = this.options;
 			if (value === undefined) {
 				this.element.value = "";
+				return false;
 			} else if ((!/^[1-9]\d*$/.test(value) && value !== "") || value > options.max) {
-					//如果输出不符合预期，则进行过滤
-					value = value.replace(/[^\d]+/g, "");
-					if (options.min !== null && value < options.min) {
-						value = options.min;
-					}
-					if (options.max !== null && value > options.max) {
-						value = options.max;
-					}
-					this.element.value = value;
-					console.info("test");
-					return false;
+				//如果输出不符合预期，则进行过滤
+				value = value.replace(/[^\d]+/g, "");
+				if (options.min !== null && value < options.min) {
+					value = options.min;
+				}
+				if (options.max !== null && value > options.max) {
+					value = options.max;
+				}
+				this.element.value = value;
+				console.info("test");
+				return false;
 			}
+			return true;
 		},
 		alphaFilter: function() {
 			var value = this.element.value,
 				options = this.options;
 			if (value === undefined) {
 				value = "";
+				return false;
 			} else {
 				var reg;
 				if (options.uppercase && options.lowercase) {
@@ -84,9 +87,15 @@ if (typeof jQuery === 'undefined') {
 			var element = this,
 				valueChange = options.valueChange,
 				inputFilter = new InputFilter(element, options),
+				mark = true,
 				eventHandler = function(event) {
-					inputFilter[options.type + "Filter"]();
+					console.info(inputFilter[options.type + "Filter"]());
+					//inputFilter[options.type + "Filter"]()第一次执行永远返回true
+					//如果有第二次，则返回false
+					//以此限制valueChange()只能执行一次
+					if (inputFilter[options.type + "Filter"]()) {
 					valueChange(element, element.value);
+					}
 					/*var filterValue = inputFilter[options.type + "Filter"]();
 					if (typeof options.length === "number" && options.type !== "digit") {
 						filterValue = filterValue.slice(0, options.length);
