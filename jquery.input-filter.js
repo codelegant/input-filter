@@ -120,6 +120,9 @@ if (typeof jQuery === 'undefined') {
                     }
                 };
             try {
+                if (element.tagName !== "INPUT" || element.type === "checkbox" || element.type === "radio") {
+                    throw new TypeError("The Element is not sport this plugin");
+                }
                 if (element.addEventListener) {
                     element.addEventListener("input", eventHandler, false);
                 } else {
@@ -128,7 +131,7 @@ if (typeof jQuery === 'undefined') {
                     });
                 }
             } catch (e) {
-                throw new Error(e.name + ": " + e.message);
+                console.error(e.name + ": " + e.message);
             }
             return this;
         });
@@ -142,6 +145,5 @@ if (typeof jQuery === 'undefined') {
         "lowercase": true,
         "transform": null,
         "valueChange": function(element, value) {}
-
     };
 })(jQuery, window, document);
