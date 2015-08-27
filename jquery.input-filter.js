@@ -1,6 +1,6 @@
 ;
 if (typeof jQuery === 'undefined') {
-    throw new Error("InputFilter's JavaScript requires jQuery")
+    throw new Error("InputFilter's JavaScript requires jQuery");
 }
 (function($, win, doc, undefined) {
     'use strict';
@@ -110,7 +110,6 @@ if (typeof jQuery === 'undefined') {
             var element = this,
                 valueChange = options.valueChange,
                 inputFilter = new InputFilter(element, options),
-                mark = true,
                 eventHandler = function(event) {
                     //inputFilter[options.type + "Filter"]()第一次执行永远返回true
                     //如果有第二次，则返回false
