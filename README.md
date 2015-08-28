@@ -3,16 +3,18 @@
 ##浏览器支持
 IE7及以上，Chrome，Firefox，Opera
 ##参数列表
-    $.fn.inputFilter.options = {
-        "type": "alnum",
-        "length": null,
-        "min": 0,
-        "max": Infinity,
-        "uppercase": true,
-        "lowercase": true,
-        "transform": null,
-        "valueChange": function(element, value) {}
-    }
+```js
+$.fn.inputFilter.options = {
+    "type": "alnum",
+    "length": null,
+    "min": 0,
+    "max": Infinity,
+    "uppercase": true,
+    "lowercase": true,
+    "transform": null,
+    "valueChange": function(element, value) {}
+}
+```
 ##参数说明
 #### 1、type
 你想得到过滤结果的类型，参数类型：`String`，默认值：`alnum`。<br>
