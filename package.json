@@ -6,16 +6,16 @@
     "author": {
         "name": "Laichuanfeng",
         "email": "laichuanfeng@hotmail.com",
-        "url": "https://github.com/Wayou"
+        "url": "https://www.laichuanfeng.com"
     },
     "licenses": [
         {
-            "type": "MIT",
+            "type": "Mozilla Public License, version 2.0",
             "url": ""
         }
     ],
     "bugs": "",
-    "homepage": "",
+    "homepage": "https://github.com/codelegant/inputer-filter",
     "docs": "",
     "demo":"",
     "download": "",
