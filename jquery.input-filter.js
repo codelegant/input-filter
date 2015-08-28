@@ -21,6 +21,7 @@ if (typeof jQuery === 'undefined') {
 			} else if (!/^[1-9]\d*$/.test(value) || value > options.max) {
 				//如果输出不符合预期，则进行过滤
 				value = value.replace(/[^\d]+/g, "");
+                console.info("done");
 				if (options.min !== null && value < options.min) {
 					value = options.min;
 				}
@@ -110,7 +111,7 @@ if (typeof jQuery === 'undefined') {
 			var element = this,
 				valueChange = options.valueChange,
 				inputFilter = new InputFilter(element, options),
-				eventHandler = function(event) {
+				eventHandler = function() {
 					//inputFilter[options.type + "Filter"]()第一次执行永远返回true
 					//如果有第二次，则返回false
 					//以此限制valueChange()只能执行一次
@@ -130,8 +131,8 @@ if (typeof jQuery === 'undefined') {
 				if (element.addEventListener) {
 					element.addEventListener("input", eventHandler, false);
 				} else {
-					element.attachEvent("onpropertychange", function(event) {
-						return eventHandler.call(element, event);
+					element.attachEvent("onpropertychange", function() {
+						return eventHandler.call(element);
 					});
 				}
 			} catch (e) {
@@ -151,8 +152,3 @@ if (typeof jQuery === 'undefined') {
 		"valueChange": function(element, value) {}
 	};
 })(jQuery, window, document);
-
-/**
- * 如果原来的值是正确的，输入值错误，不应该将原来的清空
- * 只有键盘敲击就会触发valueChange，应该是值改变才触发
- */
