@@ -1,7 +1,7 @@
 # inputer-filter
-[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/codelegant/inputer-filter/blob/master/README.md)
-![Browers Support](https://img.shields.io/badge/Browers-IE7+,Chrome,FireFox,Opera-blue.svg?style=flat-square)
-![jQuery Dependencies](https://img.shields.io/badge/jQuery-v1.4.1-blue.svg?style=flat-square)
+[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/codelegant/inputer-filter/blob/master/LICENSE)
+[![Browers Support](https://img.shields.io/badge/Browers-IE7+,Chrome,FireFox,Opera-blue.svg?style=flat-square)](https://github.com/codelegant/inputer-filter)
+[![jQuery Dependencies](https://img.shields.io/badge/jQuery-v1.4.1-blue.svg?style=flat-square)](https://github.com/codelegant/inputer-filter)
 
 一款用于过滤输入的jQuery插件，使用对象必须是**输入框**，HTML标签为**input**，type类型可为 *text*，*email*，*password*，*url*，*date*等可输入值的类型。
 ##浏览器支持
