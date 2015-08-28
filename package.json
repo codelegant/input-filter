@@ -20,6 +20,6 @@
     "demo":"",
     "download": "",
     "dependencies": {
-        "jquery": ">=1.5"
+        "jquery": ">=1.4.1"
     }
 }
