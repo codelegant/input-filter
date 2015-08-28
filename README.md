@@ -1,7 +1,7 @@
 # inputer-filter
 一款用于过滤输入的jQuery插件，使用对象必须是**输入框**，HTML标签为**input**，type类型可为 *text*，*email*，*password*，*url*，*date*等可输入值的类型。
 ##浏览器支持
-IE8及以上，Chrome，Firefox，Opera
+IE7及以上，Chrome，Firefox，Opera
 ##参数列表
     $.fn.inputFilter.options = {
         "type": "alnum",
