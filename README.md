@@ -1,5 +1,5 @@
 # inputer-filter
-[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/codelegant/inputer-filter/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/codelegant/input-filter.svg?style=flat-square)](https://github.com/codelegant/inputer-filter/blob/master/LICENSE)
 [![Browers Support](https://img.shields.io/badge/Browers-IE7+,Chrome,FireFox,Opera-blue.svg?style=flat-square)](https://github.com/codelegant/inputer-filter)
 [![jQuery Dependencies](https://img.shields.io/badge/jQuery-v1.4.1-blue.svg?style=flat-square)](https://github.com/codelegant/inputer-filter)
 
