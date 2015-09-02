@@ -1,5 +1,4 @@
-;
-if (typeof jQuery === 'undefined') {
+;if (typeof jQuery === 'undefined') {
 	throw new Error("InputFilter's JavaScript requires jQuery");
 }
 (function($, win, doc, undefined) {
@@ -12,21 +11,22 @@ if (typeof jQuery === 'undefined') {
 	InputFilter.prototype = {
 		digitFilter: function() {
 			var value = this.element.value,
-				options = this.options;
+				options = this.options,
+				max = parseInt(options.max),
+				min = parseInt(options.min);
 			if (value === undefined) {
 				this.element.value = "";
 				return false;
 			} else if (value === "") {
 				return false;
-			} else if (!/^[1-9]\d*$/.test(value) || value > options.max) {
+			} else if (!/^[1-9]\d*$/.test(value) || value > max) {
 				//如果输出不符合预期，则进行过滤
 				value = value.replace(/[^\d]+/g, "");
-                console.info("done");
-				if (options.min !== null && value < options.min) {
-					value = options.min;
+				if (min !== null && min !== NaN && value < min) {
+					value = min;
 				}
-				if (options.max !== null && value > options.max) {
-					value = options.max;
+				if (max !== null && max !== NaN && value > max) {
+					value = max;
 				}
 				this.element.value = value;
 				return false;
@@ -59,7 +59,7 @@ if (typeof jQuery === 'undefined') {
 					}
 					this.element.value = value;
 					return false;
-				} else if (typeof options.length === "number" && value.length > options.length) {
+				} else if (typeof parseInt(options.length) !== NaN && value.length > options.length) {
 					this.element.value = value.slice(0, options.length);
 					return false;
 				}
@@ -90,12 +90,12 @@ if (typeof jQuery === 'undefined') {
 					} else if (options.transform === "lowercase") {
 						value = value.toLocaleLowerCase();
 					}
-					if (typeof options.length === "number") {
+					if (typeof parseInt(options.length) !== NaN) {
 						value = value.slice(0, options.length);
 					}
 					this.element.value = value;
 					return false;
-				} else if (typeof options.length === "number" && value.length > options.length) {
+				} else if (typeof parseInt(options.length) !== NaN && value.length > options.length) {
 					this.element.value = value.slice(0, options.length);
 					return false;
 				}
