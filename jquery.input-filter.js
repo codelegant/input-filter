@@ -59,7 +59,7 @@
 					}
 					this.element.value = value;
 					return false;
-				} else if (typeof parseInt(options.length) !== NaN && value.length > options.length) {
+				} else if (!isNaN(parseInt(options.length))&& value.length > options.length) {
 					this.element.value = value.slice(0, options.length);
 					return false;
 				}
@@ -90,12 +90,12 @@
 					} else if (options.transform === "lowercase") {
 						value = value.toLocaleLowerCase();
 					}
-					if (typeof parseInt(options.length) !== NaN) {
+					if (!isNaN(parseInt(options.length))) {
 						value = value.slice(0, options.length);
 					}
 					this.element.value = value;
 					return false;
-				} else if (typeof parseInt(options.length) !== NaN && value.length > options.length) {
+				} else if (!isNaN(parseInt(options.length)) && value.length > options.length) {
 					this.element.value = value.slice(0, options.length);
 					return false;
 				}
