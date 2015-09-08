@@ -22,10 +22,10 @@
 			} else if (!/^[1-9]\d*$/.test(value) || value > max) {
 				//如果输出不符合预期，则进行过滤
 				value = value.replace(/[^\d]+/g, "");
-				if (min !== null && min !== NaN && value < min) {
+				if (min !== null && !isNaN(min) && value < min) {
 					value = min;
 				}
-				if (max !== null && max !== NaN && value > max) {
+				if (max !== null && !isNaN(max) && value > max) {
 					value = max;
 				}
 				this.element.value = value;
@@ -59,7 +59,7 @@
 					}
 					this.element.value = value;
 					return false;
-				} else if (!isNaN(parseInt(options.length))&& value.length > options.length) {
+				} else if (!isNaN(parseInt(options.length)) && value.length > options.length) {
 					this.element.value = value.slice(0, options.length);
 					return false;
 				}
