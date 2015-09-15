@@ -1,9 +1,8 @@
-;if (typeof jQuery === 'undefined') {
-	throw new Error("InputFilter's JavaScript requires jQuery");
-}
 (function($, win, doc, undefined) {
 	'use strict';
-
+	;if (typeof jQuery === 'undefined') {
+		throw new Error("InputFilter's JavaScript requires jQuery");
+	}
 	var InputFilter = function(element, options) {
 		this.options = options;
 		this.element = element;
