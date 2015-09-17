@@ -5,7 +5,7 @@
   "authors": [
     "lachuanfeng<laichuanfeng@hotmail.com>"
   ],
-  "description": "FIlter your input",
+  "description": "Filter your input to right target",
   "main": "jquery.input-filter.js",
   "keywords": [
     "Input",
