@@ -1,4 +1,3 @@
-///<reference path="jquery.d.ts"/>
 var Type;
 (function (Type) {
     Type[Type["digit"] = 0] = "digit";
@@ -10,12 +9,11 @@ var Transform;
     Transform[Transform["uppercase"] = 0] = "uppercase";
     Transform[Transform["lowercase"] = 1] = "lowercase";
 })(Transform || (Transform = {}));
-(function ($, win, doc, undefined) {
-    var InputFilter = (function () {
-        function InputFilter(options, element) {
-            this.options = options;
-            this.element = element;
-        }
-        return InputFilter;
-    })();
-})(jQuery, window, document, undefined);
+
+var InputFilter = (function () {
+    function InputFilter(options, element) {
+        this.options = options;
+        this.element = element;
+    }
+    return InputFilter;
+})();

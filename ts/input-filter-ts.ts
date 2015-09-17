@@ -1,6 +1,6 @@
 ///<reference path="jquery.d.ts"/>
-enum Type { digit, alpha, alnum }
-enum Transform{uppercase,lowercase}
+enum Type { digit=1, alpha=2, alnum=3 }
+enum Transform{uppercase=1,lowercase}
 interface Options {
 	type: Type;
 	length: number;
@@ -11,10 +11,9 @@ interface Options {
 	transform: Transform;
 	valueChange: (element:Object,value:string) => string;
 }
-(($, win, doc, undefined) => {
-	class InputFilter {
-		constructor(private options: Options, private element: Object) {
-
-		}
+class InputFilter {
+	constructor(private options: Options, private element: Object) {
+		
 	}
-})(jQuery, window, document, undefined);
+
+}
