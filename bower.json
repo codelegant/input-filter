@@ -1,0 +1,22 @@
+{
+  "name": "input-filter",
+  "version": "0.1.7",
+  "homepage": "https://github.com/codelegant/input-filter",
+  "authors": [
+    "lachuanfeng<laichuanfeng@hotmail.com>"
+  ],
+  "description": "FIlter your input",
+  "main": "jquery.input-filter.js",
+  "keywords": [
+    "Input",
+    "Filter"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
