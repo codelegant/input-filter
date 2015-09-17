@@ -702,5 +702,5 @@ interface JQuery {
     slice(start: number, end?: number): JQuery;
 }
 
-declare var jQuery: JQuery;
+declare var jQuery: JQueryStatic;
 declare var $: JQueryStatic;
