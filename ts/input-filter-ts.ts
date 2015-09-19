@@ -1,7 +1,7 @@
 ///<reference path="jquery.d.ts"/>
 module Filter {
 	export enum Type { digit, alpha, alnum }
-	export enum Transform { uppercase, lowercase }
+	export enum Transform {none, uppercase, lowercase }
 	export interface Options {
 		type: string;
 		length: number;
@@ -22,6 +22,38 @@ module Filter {
 			}
 		}
 		return false;
+	}
+	export var checkType = (value: Type|string): string => {
+		try {
+			var type;
+			if (value === String(value)) {
+				if (<string>value in Type) {	
+					type = <Type>value;
+				}
+			}
+			if (type===undefined) {
+				throw new TypeError(`"The parameter ${value} is not in Type"`)
+			}
+		} catch (error) {
+			console.error(error.name + ":" + error.message);
+		}
+		return type;
+	}
+	export var checkTransform=(value:Transform|string):string=>{
+				try {
+			var transform;
+			if (value === String(value)) {
+				if (<string>value in Transform) {	
+					transform = <Transform>value;
+				}
+			}
+			if (transform===undefined) {
+				throw new TypeError(`"The parameter ${value} is not in Type"`)
+			}
+		} catch (error) {
+			console.error(error.name + ":" + error.message);
+		}
+		return transform;
 	}
 	export class Input {
 		private options: Options;
@@ -134,7 +166,7 @@ module Filter {
 			if (!Filter.enumHasValue(Filter.Transform, options.transform)) {
 				throw new TypeError('Parameter "transform" must be in [null,"uppercase","lowercase"]');
 			}
-			var elements:JQuery= this;
+			var elements: JQuery = this;
 			return elements.each(() => {
 				var element: Filter.IE8HTMLInputElement = this,
 					valueChange = options.valueChange,
@@ -181,7 +213,7 @@ module Filter {
 		"max": Infinity,
 		"uppercase": true,
 		"lowercase": true,
-		"transform": null, //也可以通过样式控制
+		"transform": "none", //也可以通过样式控制
 		"valueChange": (element, value) => { }
 	}
 })(jQuery);
