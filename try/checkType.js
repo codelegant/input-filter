@@ -1,27 +1,25 @@
 var Type;
 (function (Type) {
-    Type[Type["null"] = 0] = "null";
-    Type[Type["digit"] = 1] = "digit";
-    Type[Type["alpha"] = 2] = "alpha";
-    Type[Type["alnum"] = 3] = "alnum";
+    Type[Type["digit"] = 0] = "digit";
+    Type[Type["alpha"] = 1] = "alpha";
+    Type[Type["alnum"] = 2] = "alnum";
 })(Type || (Type = {}));
 ;
-var checkType = function (value) {
+var checkEnum = function (value, e) {
     try {
-        var gender;
-        if (value === String(value) || value == null) {
-            if (value in Type) {
-                //gender = Type[value];
-                gender = value;
+        var type;
+        if (value === String(value)) {
+            if (value in e) {
+                type = value;
             }
         }
-        if (!gender && gender !== null) {
-            throw new TypeError("\"The parameter " + value + " is not in Type\"");
+        if (type === undefined) {
+            throw new TypeError("\"The parameter " + value + " is not in the EnumType\"");
         }
     }
     catch (error) {
         console.error(error.name + ":" + error.message);
     }
-    return gender;
+    return type;
 };
-console.log(checkType(null));
+console.log(checkEnum("digit", Type));

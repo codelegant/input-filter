@@ -2,6 +2,9 @@ enum Type { digit, alpha, alnum }
 function parseGender(value: Type|number|string) {
 	try {
 		var gender;
+		
+		//if (typeof e[k] === 'number')
+        //return <any>e[k];
 		if (value === Number(value)) {
 			gender = <Type>value;
 		} else if (value === String(value)) {

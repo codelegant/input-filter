@@ -4,7 +4,7 @@
 	<title>InputFilter</title>
 	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-	<script src="jquery.input-filter.js"></script>
+	<script src="./js/input-filter-ts.js"></script>
 </head>
 <body>
 <div class="col-md-offset-4 col-md-4">
@@ -30,11 +30,12 @@
         });*/
 		var count=0;
 		$("#filter").inputFilter({
-			type:"digit",
-			max:100,
-			length:3,
-			valueChange:function(){
-				console.info(count++);
+			type:"alnum",
+			transform:"uppercase",
+			//max:1000,
+			length:10,
+			valueChange:function(element,value){
+				console.info(value);
 			}
 		});
 	}());

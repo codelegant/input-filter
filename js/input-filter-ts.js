@@ -1,4 +1,4 @@
-var _this = this;
+///<reference path="jquery.d.ts"/>
 var Filter;
 (function (Filter) {
     (function (Type) {
@@ -8,11 +8,11 @@ var Filter;
     })(Filter.Type || (Filter.Type = {}));
     var Type = Filter.Type;
     (function (Transform) {
-        Transform[Transform["uppercase"] = 0] = "uppercase";
-        Transform[Transform["lowercase"] = 1] = "lowercase";
+        Transform[Transform["none"] = 0] = "none";
+        Transform[Transform["uppercase"] = 1] = "uppercase";
+        Transform[Transform["lowercase"] = 2] = "lowercase";
     })(Filter.Transform || (Filter.Transform = {}));
     var Transform = Filter.Transform;
-
     Filter.enumHasValue = function (e, v) {
         for (var member in e) {
             if (member === v) {
@@ -20,6 +20,23 @@ var Filter;
             }
         }
         return false;
+    };
+    Filter.checkEnum = function (value, e) {
+        try {
+            var type;
+            if (value === String(value)) {
+                if (value in e) {
+                    type = value;
+                }
+            }
+            if (type === undefined) {
+                throw new TypeError("\"The parameter " + value + " is incorrect\"");
+            }
+        }
+        catch (error) {
+            console.error(error.name + ":" + error.message);
+        }
+        return type;
     };
     var Input = (function () {
         function Input(options, element) {
@@ -31,9 +48,11 @@ var Filter;
             if (value === undefined) {
                 this.element.value = "";
                 return false;
-            } else if (value === "") {
+            }
+            else if (value === "") {
                 return false;
-            } else if (!/^[1-9]\d*$/.test(value) || value > max) {
+            }
+            else if (!/^[1-9]\d*$/.test(value) || value > max) {
                 value = value.replace(/[^\d]+/g, "");
                 if (min !== null && !isNaN(min) && value < min) {
                     value = min;
@@ -50,28 +69,36 @@ var Filter;
             if (value === undefined) {
                 this.element.value = "";
                 return false;
-            } else if (value === "") {
+            }
+            else if (value === "") {
                 return false;
-            } else {
+            }
+            else {
                 var reg;
                 if (options.uppercase && options.lowercase) {
                     reg = /[^A-Za-z]+/g;
-                } else if (options.uppercase && !options.lowercase) {
+                }
+                else if (options.uppercase && !options.lowercase) {
                     reg = /[^A-Z]+/g;
-                } else {
+                }
+                else {
                     reg = /[^a-z]+/g;
                 }
                 if (reg.test(value) && value !== "") {
                     value = value.replace(reg, "");
-                    if (options.transform === "uppercase") {
-                        value = value.toUpperCase();
-                    } else if (options.transform === "lowercase") {
-                        value = value.toLowerCase();
-                    }
                     this.element.value = value;
                     return false;
-                } else if (!isNaN(options.length) && value.length > options.length) {
+                }
+                else if (!isNaN(options.length) && value.length > options.length) {
                     this.element.value = value.slice(0, options.length);
+                    return false;
+                }
+                else if (options.transform === "uppercase" && /[a-z]+/g.test(value)) {
+                    this.element.value = value.toUpperCase();
+                    return false;
+                }
+                else if (options.transform === "lowercase" && /[A-Z]+/g.test(value)) {
+                    this.element.value = value.toLowerCase();
                     return false;
                 }
             }
@@ -82,31 +109,39 @@ var Filter;
             if (value === undefined) {
                 this.element.value = "";
                 return false;
-            } else if (value === "") {
+            }
+            else if (value === "") {
                 return false;
-            } else {
+            }
+            else {
                 var reg;
                 if (options.uppercase && options.lowercase) {
                     reg = /[^A-Za-z0-9]+/g;
-                } else if (options.uppercase && !options.lowercase) {
+                }
+                else if (options.uppercase && !options.lowercase) {
                     reg = /[^A-Z0-9]+/g;
-                } else {
+                }
+                else {
                     reg = /[^a-z0-9]+/g;
                 }
                 if (reg.test(value)) {
                     value = value.replace(reg, "");
-                    if (options.transform === "uppercase") {
-                        value = value.toUpperCase();
-                    } else if (options.transform === "lowercase") {
-                        value = value.toLocaleLowerCase();
-                    }
                     if (!isNaN(options.length)) {
                         value = value.slice(0, options.length);
                     }
                     this.element.value = value;
                     return false;
-                } else if (!isNaN(options.length) && value.length > options.length) {
+                }
+                else if (!isNaN(options.length) && value.length > options.length) {
                     this.element.value = value.slice(0, options.length);
+                    return false;
+                }
+                else if (options.transform === "uppercase" && /[a-z]+/g.test(value)) {
+                    this.element.value = value.toUpperCase();
+                    return false;
+                }
+                else if (options.transform === "lowercase" && /[A-Z]+/g.test(value)) {
+                    this.element.value = value.toLowerCase();
                     return false;
                 }
             }
@@ -119,42 +154,42 @@ var Filter;
 (function ($) {
     $.fn.inputFilter = function (options) {
         options = $.extend({}, $.fn.inputFilter.options, options || {});
-        try  {
-            if (!Filter.enumHasValue(Filter.Type, options.type)) {
-                throw new TypeError('Parameter "type" must be in ["digit","alpha","alnum"]');
-            }
-            if (!Filter.enumHasValue(Filter.Transform, options.transform)) {
-                throw new TypeError('Parameter "transform" must be in [null,"uppercase","lowercase"]');
-            }
-            var elements = _this;
+        try {
+            options.type = Filter.checkEnum(options.type, Filter.Type);
+            options.transform = Filter.checkEnum(options.transform, Filter.Transform);
+            var elements = this;
             return elements.each(function () {
-                var element = _this, valueChange = options.valueChange, inputFilter = new Filter.Input(options, element), eventHandler = function () {
+                var element = this, valueChange = options.valueChange, inputFilter = new Filter.Input(options, element), eventHandler = function () {
                     if ("\v" === "v") {
                         if (inputFilter[options.type + "Filter"]()) {
                             valueChange(element, element.value);
                         }
-                    } else {
+                    }
+                    else {
                         inputFilter[options.type + "Filter"]();
                         valueChange(element, element.value);
                     }
                 };
-                try  {
+                try {
                     if (element.tagName !== "INPUT" || element.type === "checkbox" || element.type === "radio") {
                         throw new TypeError("The Element is not sport this plugin");
                     }
                     if (element.addEventListener) {
                         element.addEventListener("input", eventHandler, false);
-                    } else {
+                    }
+                    else {
                         element.attachEvent("onpropertychange", function () {
                             return eventHandler.call(element);
                         });
                     }
-                } catch (e) {
+                }
+                catch (e) {
                     console.error(e.name + ": " + e.message);
                 }
-                return _this;
+                return this;
             });
-        } catch (error) {
+        }
+        catch (error) {
             console.error(error.name + ":" + error.message);
         }
     };
@@ -165,8 +200,7 @@ var Filter;
         "max": Infinity,
         "uppercase": true,
         "lowercase": true,
-        "transform": null,
-        "valueChange": function (element, value) {
-        }
+        "transform": "none",
+        "valueChange": function (element, value) { }
     };
 })(jQuery);

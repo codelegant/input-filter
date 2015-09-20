@@ -1,19 +1,18 @@
-enum Type {null, digit, alpha, alnum };
-var checkType = (value: Type|string): string => {
+enum Type {digit, alpha, alnum };
+var checkEnum = <E>(value: E|string, e: any): string => {
 	try {
-		var gender;
-		if (value === String(value)||value==null) {
-			if (<string>value in Type) {	
-				//gender = Type[value];
-				gender = <Type>value;
+		var type;
+		if (value === String(value)) {
+			if (<string>value in e) {
+				type = <E>value;
 			}
 		}
-		if (gender===undefined) {
-			throw new TypeError(`"The parameter ${value} is not in Type"`)
+		if (type === undefined) {
+			throw new TypeError(`"The parameter ${value} is not in the EnumType"`)
 		}
 	} catch (error) {
 		console.error(error.name + ":" + error.message);
 	}
-	return gender;
+	return type;
 }
-console.log(checkType(null));
+console.log(checkEnum<Type>("digit",Type));

@@ -1,16 +1,16 @@
 ///<reference path="jquery.d.ts"/>
 module Filter {
 	export enum Type { digit, alpha, alnum }
-	export enum Transform {none, uppercase, lowercase }
+	export enum Transform { none, uppercase, lowercase }
 	export interface Options {
-		type: string;
-		length: number;
-		min: number;
-		max: number;
-		uppercase: boolean;
-		lowercase: boolean;
-		transform: string;
-		valueChange(element: HTMLInputElement, value: string): void;
+		type?: string;
+		length?: number;
+		min?: number;
+		max?: number;
+		uppercase?: boolean;
+		lowercase?: boolean;
+		transform?: string;
+		valueChange?: (element: HTMLInputElement, value: string) => void;
 	}
 	export interface IE8HTMLInputElement extends HTMLInputElement {
 		attachEvent(type: string, listener: EventListenerOrEventListenerObject): void;
@@ -23,37 +23,21 @@ module Filter {
 		}
 		return false;
 	}
-	export var checkType = (value: Type|string): string => {
+	export var checkEnum = <E>(value: E|string, e: any): string => {
 		try {
 			var type;
 			if (value === String(value)) {
-				if (<string>value in Type) {	
-					type = <Type>value;
+				if (<string>value in e) {
+					type = <E>value;
 				}
 			}
-			if (type===undefined) {
-				throw new TypeError(`"The parameter ${value} is not in Type"`)
+			if (type === undefined) {
+				throw new TypeError(`"The parameter ${value} is incorrect"`)
 			}
 		} catch (error) {
 			console.error(error.name + ":" + error.message);
 		}
 		return type;
-	}
-	export var checkTransform=(value:Transform|string):string=>{
-				try {
-			var transform;
-			if (value === String(value)) {
-				if (<string>value in Transform) {	
-					transform = <Transform>value;
-				}
-			}
-			if (transform===undefined) {
-				throw new TypeError(`"The parameter ${value} is not in Type"`)
-			}
-		} catch (error) {
-			console.error(error.name + ":" + error.message);
-		}
-		return transform;
 	}
 	export class Input {
 		private options: Options;
@@ -63,6 +47,7 @@ module Filter {
 			this.element = element;
 		}
 		digitFilter() {
+			//只接受数字
 			var value: any = this.element.value,
 				options = this.options,
 				max = options.max,
@@ -86,6 +71,7 @@ module Filter {
 			}
 		}
 		alphaFilter() {
+			//只接受字母
 			var value: any = this.element.value,
 				options = this.options;
 			if (value === undefined) {
@@ -104,22 +90,25 @@ module Filter {
 				}
 				if (reg.test(value) && value !== "") {
 					value = value.replace(reg, "");
-					if (options.transform === "uppercase") {
-						value = value.toUpperCase();
-					} else if (options.transform === "lowercase") {
-						value = value.toLowerCase();
-					}
 					this.element.value = value;
 					return false;
-				} else if (!isNaN(options.length) && value.length > options.length) {
+				}
+				else if (!isNaN(options.length) && value.length > options.length) {
 					this.element.value = value.slice(0, options.length);
+					return false;
+				} else if (options.transform === "uppercase" && /[a-z]+/g.test(value)) {
+					this.element.value = value.toUpperCase();
+					return false;
+				} else if (options.transform === "lowercase" && /[A-Z]+/g.test(value)) {
+					this.element.value = value.toLowerCase();
 					return false;
 				}
 			}
 			return true;
 		}
 		alnumFilter() {
-			var value = this.element.value,
+			//字母与数字
+			var value: any = this.element.value,
 				options = this.options;
 			if (value === undefined) {
 				this.element.value = "";
@@ -137,11 +126,6 @@ module Filter {
 				}
 				if (reg.test(value)) {
 					value = value.replace(reg, "");
-					if (options.transform === "uppercase") {
-						value = value.toUpperCase();
-					} else if (options.transform === "lowercase") {
-						value = value.toLocaleLowerCase();
-					}
 					if (!isNaN(options.length)) {
 						value = value.slice(0, options.length);
 					}
@@ -150,6 +134,12 @@ module Filter {
 				} else if (!isNaN(options.length) && value.length > options.length) {
 					this.element.value = value.slice(0, options.length);
 					return false;
+				} else if (options.transform === "uppercase" && /[a-z]+/g.test(value)) {
+					this.element.value = value.toUpperCase();
+					return false;
+				} else if (options.transform === "lowercase" && /[A-Z]+/g.test(value)) {
+					this.element.value = value.toLowerCase();
+					return false;
 				}
 			}
 			return true;
@@ -157,17 +147,19 @@ module Filter {
 	}
 }
 (($) => {
-	$.fn.inputFilter = (options: Filter.Options) => {
+	$.fn.inputFilter = function(options: Filter.Options) {
 		options = $.extend({}, $.fn.inputFilter.options, options || {});
 		try {
-			if (!Filter.enumHasValue(Filter.Type, options.type)) {
-				throw new TypeError('Parameter "type" must be in ["digit","alpha","alnum"]');
-			}
-			if (!Filter.enumHasValue(Filter.Transform, options.transform)) {
-				throw new TypeError('Parameter "transform" must be in [null,"uppercase","lowercase"]');
-			}
+			// if (!Filter.enumHasValue(Filter.Type, options.type)) {
+			// 	throw new TypeError('Parameter "type" must be in ["digit","alpha","alnum"]');
+			// }
+			// if (!Filter.enumHasValue(Filter.Transform, options.transform)) {
+			// 	throw new TypeError('Parameter "transform" must be in [null,"uppercase","lowercase"]');
+			// }
+			options.type = Filter.checkEnum<Filter.Type>(options.type, Filter.Type);
+			options.transform = Filter.checkEnum<Filter.Transform>(options.transform, Filter.Transform);
 			var elements: JQuery = this;
-			return elements.each(() => {
+			return elements.each(function() {
 				var element: Filter.IE8HTMLInputElement = this,
 					valueChange = options.valueChange,
 					inputFilter = new Filter.Input(options, element),
