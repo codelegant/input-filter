@@ -1,5 +1,5 @@
 ///<reference path="../ts/jquery.d.ts"/>
-enum Type { digit, alpha, alnum }
+enum Type { digit=1, alpha=2, alnum=3 }
 enum Transform { null, uppercase, lowercase }
 interface Lengthwise {
 	length: number;

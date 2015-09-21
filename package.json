@@ -2,11 +2,11 @@
     "name": "input-filter",
     "title": "InputFilter",
     "description": "Filter your input",
-    "version": "0.1.7",
     "keywords": [
         "filter",
         "input"
     ],
+    "version": "0.1.8",
     "author": {
         "name": "Laichuanfeng",
         "email": "laichuanfeng@hotmail.com",
