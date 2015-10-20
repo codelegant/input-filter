@@ -1,4 +1,3 @@
-///<reference path="jquery.d.ts"/>
 var Filter;
 (function (Filter) {
     (function (Type) {
@@ -44,6 +43,7 @@ var Filter;
             this.element = element;
         }
         Input.prototype.digitFilter = function () {
+            //只接受数字
             var value = this.element.value, options = this.options, max = options.max, min = options.min;
             if (value === undefined) {
                 this.element.value = "";
@@ -53,6 +53,7 @@ var Filter;
                 return false;
             }
             else if (!/^[1-9]\d*$/.test(value) || value > max) {
+                //如果输出不符合预期
                 value = value.replace(/[^\d]+/g, "");
                 if (min !== null && !isNaN(min) && value < min) {
                     value = min;
@@ -63,8 +64,10 @@ var Filter;
                 this.element.value = value;
                 return false;
             }
+            return true;
         };
         Input.prototype.alphaFilter = function () {
+            //只接受字母
             var value = this.element.value, options = this.options;
             if (value === undefined) {
                 this.element.value = "";
@@ -105,6 +108,7 @@ var Filter;
             return true;
         };
         Input.prototype.alnumFilter = function () {
+            //字母与数字
             var value = this.element.value, options = this.options;
             if (value === undefined) {
                 this.element.value = "";
@@ -171,16 +175,18 @@ var Filter;
                     }
                 };
                 try {
-                    if (element.tagName !== "INPUT" || element.type === "checkbox" || element.type === "radio") {
-                        throw new TypeError("The Element is not sport this plugin");
-                    }
-                    if (element.addEventListener) {
-                        element.addEventListener("input", eventHandler, false);
+                    if (element.tagName === "INPUT" && element.type === "text") {
+                        if (element.addEventListener) {
+                            element.addEventListener("input", eventHandler, false);
+                        }
+                        else {
+                            element.attachEvent("onpropertychange", function () {
+                                return eventHandler.call(element);
+                            });
+                        }
                     }
                     else {
-                        element.attachEvent("onpropertychange", function () {
-                            return eventHandler.call(element);
-                        });
+                        throw new TypeError("The Element is not sport this plugin");
                     }
                 }
                 catch (e) {
@@ -195,12 +201,13 @@ var Filter;
     };
     $.fn.inputFilter.options = {
         "type": "alnum",
-        "length": 0,
+        "length": Infinity,
         "min": 0,
         "max": Infinity,
         "uppercase": true,
         "lowercase": true,
         "transform": "none",
-        "valueChange": function (element, value) { }
+        "valueChange": function (element, value) {
+        }
     };
 })(jQuery);
