@@ -10,14 +10,14 @@ module Filter {
         uppercase?: boolean;
         lowercase?: boolean;
         transform?: string;
-        valueChange?: (element:HTMLInputElement, value:string) => void;
+        valueChange?: (element: HTMLInputElement, value: string) => void;
     }
 
     export interface IE8HTMLInputElement extends HTMLInputElement {
         //attachEvent(type: string, listener: EventListenerOrEventListenerObject): void;
-        attachEvent(event:string, listener:EventListener): boolean;
+        attachEvent(event: string, listener: EventListener): boolean;
     }
-    export var enumHasValue = (e, v:string):boolean=> {
+    export var enumHasValue = (e, v: string): boolean=> {
         for (var member in e) {
             if (member === v) {
                 return true;
@@ -25,7 +25,7 @@ module Filter {
         }
         return false;
     };
-    export var checkEnum = <E>(value:E|string, e:any):string => {
+    export var checkEnum = <E>(value: E | string, e): string => {
         try {
             var type;
             if (value === String(value)) {
@@ -42,20 +42,20 @@ module Filter {
         return type;
     };
     export class Input {
-        private options:Options;
-        private element:HTMLInputElement;
+        private options: Options;
+        private element: HTMLInputElement;
 
-        constructor(options:Options, element:HTMLInputElement) {
+        constructor(options: Options, element: HTMLInputElement) {
             this.options = options;
             this.element = element;
         }
 
         digitFilter() {
             //只接受数字
-            var value:any = this.element.value,
-                options   = this.options,
-                max       = options.max,
-                min       = options.min;
+            var value: any = this.element.value,
+                options = this.options,
+                max = options.max,
+                min = options.min;
             if (value === undefined) {
                 this.element.value = "";
                 return false;
@@ -78,15 +78,15 @@ module Filter {
 
         alphaFilter() {
             //只接受字母
-            var value:any = this.element.value,
-                options   = this.options;
+            var value: any = this.element.value,
+                options = this.options;
             if (value === undefined) {
                 this.element.value = "";
                 return false;
             } else if (value === "") {
                 return false;
             } else {
-                var reg:RegExp;
+                var reg: RegExp;
                 if (options.uppercase && options.lowercase) {
                     reg = /[^A-Za-z]+/g;
                 } else if (options.uppercase && !options.lowercase) {
@@ -115,8 +115,8 @@ module Filter {
 
         alnumFilter() {
             //字母与数字
-            var value:any = this.element.value,
-                options   = this.options;
+            var value: any = this.element.value,
+                options = this.options;
             if (value === undefined) {
                 this.element.value = "";
                 return false;
@@ -154,17 +154,17 @@ module Filter {
     }
 }
 (($) => {
-    $.fn.inputFilter = function (options:Filter.Options) {
+    $.fn.inputFilter = function(options: Filter.Options) {
         options = $.extend({}, $.fn.inputFilter.options, options || {});
         try {
             options.type = Filter.checkEnum<Filter.Type>(options.type, Filter.Type);
             options.transform = Filter.checkEnum<Filter.Transform>(options.transform, Filter.Transform);
-            var elements:JQuery = this;
-            return elements.each(function () {
-                var element:Filter.IE8HTMLInputElement = this,
-                    valueChange                        = options.valueChange,
-                    inputFilter                        = new Filter.Input(options, element),
-                    eventHandler                       = ():void=> {
+            var elements: JQuery = this;
+            return elements.each(function() {
+                var element: Filter.IE8HTMLInputElement = this,
+                    valueChange = options.valueChange,
+                    inputFilter = new Filter.Input(options, element),
+                    eventHandler = (): void=> {
                         if ("\v" === "v") {
                             if (inputFilter[options.type + "Filter"]()) {
                                 valueChange(element, element.value);
@@ -179,7 +179,7 @@ module Filter {
                         if (element.addEventListener) {
                             element.addEventListener("input", eventHandler, false);
                         } else {
-                            element.attachEvent("onpropertychange", function () {
+                            element.attachEvent("onpropertychange", function() {
                                 return eventHandler.call(element);
                             });
                         }
@@ -197,13 +197,13 @@ module Filter {
         }
     };
     $.fn.inputFilter.options = {
-        "type"       : "alnum",
-        "length"     : Infinity,
-        "min"        : 0,
-        "max"        : Infinity,
-        "uppercase"  : true,
-        "lowercase"  : true,
-        "transform"  : "none",
+        "type": "alnum",
+        "length": Infinity,
+        "min": 0,
+        "max": Infinity,
+        "uppercase": true,
+        "lowercase": true,
+        "transform": "none",
         "valueChange": (element, value) => {
         }
     }
