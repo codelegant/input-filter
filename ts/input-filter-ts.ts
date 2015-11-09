@@ -1,8 +1,8 @@
-///<reference path="jquery.d.ts"/>
-module Filter {
-    export enum Type { digit, alpha, alnum }
-    export enum Transform { none, uppercase, lowercase }
-    export interface Options {
+///<reference path="./jquery.d.ts"/>
+;(($,window,document) => {
+    enum Type { digit, alpha, alnum }
+    enum Transform { none, uppercase, lowercase }
+    interface Options {
         type?: string;
         length?: number;
         min?: number;
@@ -13,19 +13,10 @@ module Filter {
         valueChange?: (element: HTMLInputElement, value: string) => void;
     }
 
-    export interface IE8HTMLInputElement extends HTMLInputElement {
-        //attachEvent(type: string, listener: EventListenerOrEventListenerObject): void;
-        attachEvent(event: string, listener: EventListener): boolean;
+    interface IE8HTMLInputElement extends HTMLInputElement {
+        attachEvent(event: string, listener: EventListenerOrEventListenerObject): void;
     }
-    export var enumHasValue = (e, v: string): boolean=> {
-        for (var member in e) {
-            if (member === v) {
-                return true;
-            }
-        }
-        return false;
-    };
-    export var checkEnum = <E>(value: E | string, e): string => {
+    var checkEnum = <E>(value: E | string, e: any): string => {
         try {
             var type;
             if (value === String(value)) {
@@ -41,7 +32,7 @@ module Filter {
         }
         return type;
     };
-    export class Input {
+    class Input {
         private options: Options;
         private element: HTMLInputElement;
 
@@ -98,8 +89,7 @@ module Filter {
                     value = value.replace(reg, "");
                     this.element.value = value;
                     return false;
-                }
-                else if (!isNaN(options.length) && value.length > options.length) {
+                } else if (!isNaN(options.length) && value.length > options.length) {
                     this.element.value = value.slice(0, options.length);
                     return false;
                 } else if (options.transform === "uppercase" && /[a-z]+/g.test(value)) {
@@ -152,20 +142,22 @@ module Filter {
             return true;
         }
     }
-}
-(($) => {
-    $.fn.inputFilter = function(options: Filter.Options) {
+    $.fn.inputFilter = function(options: Options) {
         options = $.extend({}, $.fn.inputFilter.options, options || {});
         try {
-            options.type = Filter.checkEnum<Filter.Type>(options.type, Filter.Type);
-            options.transform = Filter.checkEnum<Filter.Transform>(options.transform, Filter.Transform);
+            options.type = checkEnum<Type>(options.type, Type);
+            options.transform = checkEnum<Transform>(options.transform, Transform);
             var elements: JQuery = this;
             return elements.each(function() {
-                var element: Filter.IE8HTMLInputElement = this,
+                var element: IE8HTMLInputElement = this,
                     valueChange = options.valueChange,
-                    inputFilter = new Filter.Input(options, element),
+                    inputFilter = new Input(options, element),
                     eventHandler = (): void=> {
                         if ("\v" === "v") {
+                            //IE8及以下的版本中
+                            //inputFilter[options.type + "Filter"]()第一次执行永远返回true
+                            //如果有第二次，则返回false
+                            //以此限制valueChange()只能执行一次
                             if (inputFilter[options.type + "Filter"]()) {
                                 valueChange(element, element.value);
                             }
@@ -203,8 +195,8 @@ module Filter {
         "max": Infinity,
         "uppercase": true,
         "lowercase": true,
-        "transform": "none",
+        "transform": "none", //也可以通过样式控制
         "valueChange": (element, value) => {
         }
     }
-})(jQuery);
+})(jQuery,window,document);

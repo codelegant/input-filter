@@ -1,26 +1,17 @@
-var Filter;
-(function (Filter) {
+;(function ($, window, document) {
+    var Type;
     (function (Type) {
         Type[Type["digit"] = 0] = "digit";
         Type[Type["alpha"] = 1] = "alpha";
         Type[Type["alnum"] = 2] = "alnum";
-    })(Filter.Type || (Filter.Type = {}));
-    var Type = Filter.Type;
+    })(Type || (Type = {}));
+    var Transform;
     (function (Transform) {
         Transform[Transform["none"] = 0] = "none";
         Transform[Transform["uppercase"] = 1] = "uppercase";
         Transform[Transform["lowercase"] = 2] = "lowercase";
-    })(Filter.Transform || (Filter.Transform = {}));
-    var Transform = Filter.Transform;
-    Filter.enumHasValue = function (e, v) {
-        for (var member in e) {
-            if (member === v) {
-                return true;
-            }
-        }
-        return false;
-    };
-    Filter.checkEnum = function (value, e) {
+    })(Transform || (Transform = {}));
+    var checkEnum = function (value, e) {
         try {
             var type;
             if (value === String(value)) {
@@ -153,18 +144,19 @@ var Filter;
         };
         return Input;
     })();
-    Filter.Input = Input;
-})(Filter || (Filter = {}));
-(function ($) {
     $.fn.inputFilter = function (options) {
         options = $.extend({}, $.fn.inputFilter.options, options || {});
         try {
-            options.type = Filter.checkEnum(options.type, Filter.Type);
-            options.transform = Filter.checkEnum(options.transform, Filter.Transform);
+            options.type = checkEnum(options.type, Type);
+            options.transform = checkEnum(options.transform, Transform);
             var elements = this;
             return elements.each(function () {
-                var element = this, valueChange = options.valueChange, inputFilter = new Filter.Input(options, element), eventHandler = function () {
+                var element = this, valueChange = options.valueChange, inputFilter = new Input(options, element), eventHandler = function () {
                     if ("\v" === "v") {
+                        //IE8及以下的版本中
+                        //inputFilter[options.type + "Filter"]()第一次执行永远返回true
+                        //如果有第二次，则返回false
+                        //以此限制valueChange()只能执行一次
                         if (inputFilter[options.type + "Filter"]()) {
                             valueChange(element, element.value);
                         }
@@ -210,4 +202,4 @@ var Filter;
         "valueChange": function (element, value) {
         }
     };
-})(jQuery);
+})(jQuery, window, document);

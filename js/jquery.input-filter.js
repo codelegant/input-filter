@@ -1,6 +1,6 @@
-(function($, win, doc, undefined) {
+;(function($, win, doc, undefined) {
 	'use strict';
-	;if (typeof jQuery === 'undefined') {
+	if (typeof jQuery === 'undefined') {
 		throw new Error("InputFilter's JavaScript requires jQuery");
 	}
 	var InputFilter = function(element, options) {
