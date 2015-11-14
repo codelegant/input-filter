@@ -4,7 +4,7 @@
   "description": "Filter your input",
   "main": "input-filter-ts.js",
   "authors": [
-    "lachuanfeng(laichuanfeng@hotmail.com)"
+    "laichuanfeng(laichuanfeng@hotmail.com)"
   ],
   "license": "MIT",
   "keywords": [
@@ -19,5 +19,5 @@
     "bower_components",
     "test",
     "tests"
-  ],
+  ]
 }
