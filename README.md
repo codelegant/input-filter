@@ -1,6 +1,7 @@
 
 # input-filter
-[![GitHub release](https://img.shields.io/github/release/codelegant/input-filter.svg)](https://github.com/codelegant/input-filter/releases/tag/V0.2.0)
+[![GitHub release](https://img.shields.io/github/release/codelegant/input-filter.svg)](https://github.com/codelegant/input-filter/tree/1.0.0)
+[![Bower](https://img.shields.io/bower/v/input-filter.svg)](https://github.com/codelegant/input-filter/tree/1.0.0)
 [![GitHub license](https://img.shields.io/npm/v/typescript.svg?style=flat)](https://www.npmjs.com/package/typescript)
 [![jQuery Dependencies](https://img.shields.io/badge/jQuery-v1.5.0-blue.svg?style=flat)](https://github.com/codelegant/inputer-filter)
 [![GitHub license](https://img.shields.io/github/license/codelegant/input-filter.svg?style=flat)](https://github.com/codelegant/inputer-filter/blob/master/LICENSE)
