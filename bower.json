@@ -1,6 +1,5 @@
 {
   "name": "input-filter",
-  "version": "3.0.0",
   "description": "Filter your input",
   "main": "input-filter-ts.js",
   "authors": [
