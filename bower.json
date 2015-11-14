@@ -1,23 +1,23 @@
 {
   "name": "input-filter",
   "version": "0.2.0",
-  "homepage": "https://github.com/codelegant/input-filter",
+  "description": "Filter your input",
+  "main": "input-filter-ts.js",
   "authors": [
     "lachuanfeng<laichuanfeng@hotmail.com>"
   ],
-  "description": "Filter your input to right target",
-  "main": "jquery.input-filter.js",
-  "keywords": [
-    "Input",
-    "Filter"
-  ],
   "license": "MIT",
+  "keywords": [
+    "filter",
+    "input"
+  ],
+  "homepage": "https://github.com/codelegant/input-filter",
+  "moduleType": [],
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
     "test",
     "tests"
-  ],
-  "moduleType": []
+  ]
 }
