@@ -1,5 +1,6 @@
 {
   "name": "input-filter",
+  "version": "0.2.0",
   "description": "Filter your input",
   "main": "input-filter-ts.js",
   "authors": [
@@ -19,5 +20,4 @@
     "test",
     "tests"
   ],
-  "version": "0.2.0"
 }
