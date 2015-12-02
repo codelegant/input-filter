@@ -1,5 +1,5 @@
-///<reference path="./jquery.d.ts"/>
-;(($,window,document) => {
+///<reference path="./../typings/jquery/jquery.d.ts"/>
+; (($, window, document) => {
     enum Type { digit, alpha, alnum }
     enum Transform { none, uppercase, lowercase }
     interface Options {
@@ -12,7 +12,6 @@
         transform?: string;
         valueChange?: (element: HTMLInputElement, value: string) => void;
     }
-
     interface IE8HTMLInputElement extends HTMLInputElement {
         attachEvent(event: string, listener: EventListenerOrEventListenerObject): void;
     }
@@ -25,7 +24,7 @@
                 }
             }
             if (type === undefined) {
-                throw new TypeError(`"The parameter ${value} is incorrect"`)
+                throw new TypeError(`"The parameter ${value} is incorrect"`);
             }
         } catch (error) {
             console.error(error.name + ":" + error.message);
@@ -187,7 +186,7 @@
         } catch (error) {
             console.error(error.name + ":" + error.message);
         }
-    };
+    }
     $.fn.inputFilter.options = {
         "type": "alnum",
         "length": Infinity,
@@ -199,4 +198,4 @@
         "valueChange": (element, value) => {
         }
     }
-})(jQuery,window,document);
+})(jQuery, window, document);
