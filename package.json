@@ -1,27 +1,39 @@
 {
-	"name": "input-filter",
-	"version": "1.0.0",
-	"title": "InputFilter",
-	"description": "Filter your input",
-	"keywords": [
-		"filter",
-		"input"
-	],
-	"author": {
-		"name": "Laichuanfeng",
-		"email": "laichuanfeng@hotmail.com",
-		"url": "https://www.laichuanfeng.com"
-	},
-	"licenses": [{
-		"type": "MIT",
-		"url": "https://github.com/codelegant/inputer-filter/blob/master/LICENSE"
-	}],
-	"bugs": "",
-	"homepage": "https://github.com/codelegant/inputer-filter",
-	"docs": "",
-	"demo": "",
-	"download": "",
-	"devDependencies": {
-		"jquery": ">=1.5.0"
-	}
+  "name": "input-filter",
+  "version": "1.0.0",
+  "title": "InputFilter",
+  "description": "Filter your input",
+  "keywords": [
+    "filter",
+    "input"
+  ],
+  "author": "Laichuanfeng <laichuanfeng@hotmail.com> (https://www.laichuanfeng.com)",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/codelegant/inputer-filter/blob/master/LICENSE"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/codelegant/input-filter/issues"
+  },
+  "homepage": "https://github.com/codelegant/inputer-filter",
+  "docs": "",
+  "demo": "",
+  "download": "",
+  "devDependencies": {
+    "gulp-notify": "^2.2.0",
+    "gulp-sourcemaps": "^1.5.1",
+    "gulp-typescript": "^2.5.0",
+    "gulp-uglify": "^1.5.1"
+  },
+  "main": "input-filter",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codelegant/input-filter.git"
+  },
+  "license": "MIT"
 }

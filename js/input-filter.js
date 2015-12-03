@@ -1,4 +1,5 @@
-;(function ($, window, document) {
+;
+(function ($, window, document) {
     var Type;
     (function (Type) {
         Type[Type["digit"] = 0] = "digit";
@@ -34,7 +35,6 @@
             this.element = element;
         }
         Input.prototype.digitFilter = function () {
-            //只接受数字
             var value = this.element.value, options = this.options, max = options.max, min = options.min;
             if (value === undefined) {
                 this.element.value = "";
@@ -44,7 +44,6 @@
                 return false;
             }
             else if (!/^[1-9]\d*$/.test(value) || value > max) {
-                //如果输出不符合预期
                 value = value.replace(/[^\d]+/g, "");
                 if (min !== null && !isNaN(min) && value < min) {
                     value = min;
@@ -58,7 +57,6 @@
             return true;
         };
         Input.prototype.alphaFilter = function () {
-            //只接受字母
             var value = this.element.value, options = this.options;
             if (value === undefined) {
                 this.element.value = "";
@@ -99,7 +97,6 @@
             return true;
         };
         Input.prototype.alnumFilter = function () {
-            //字母与数字
             var value = this.element.value, options = this.options;
             if (value === undefined) {
                 this.element.value = "";
@@ -153,10 +150,6 @@
             return elements.each(function () {
                 var element = this, valueChange = options.valueChange, inputFilter = new Input(options, element), eventHandler = function () {
                     if ("\v" === "v") {
-                        //IE8及以下的版本中
-                        //inputFilter[options.type + "Filter"]()第一次执行永远返回true
-                        //如果有第二次，则返回false
-                        //以此限制valueChange()只能执行一次
                         if (inputFilter[options.type + "Filter"]()) {
                             valueChange(element, element.value);
                         }
@@ -203,3 +196,5 @@
         }
     };
 })(jQuery, window, document);
+
+//# sourceMappingURL=input-filter.js.map
