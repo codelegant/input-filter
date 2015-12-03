@@ -1,4 +1,3 @@
-///<reference path="./../typings/jquery/jquery.d.ts"/>
 ; (($, window, document) => {
     enum Type { digit, alpha, alnum }
     enum Transform { none, uppercase, lowercase }

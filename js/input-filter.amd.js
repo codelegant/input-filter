@@ -1,5 +1,4 @@
-;
-(function ($, window, document) {
+define(["require", "exports", "jquery"], function (require, exports, $) {
     var Type;
     (function (Type) {
         Type[Type["digit"] = 0] = "digit";
@@ -195,6 +194,7 @@
         "valueChange": function (element, value) {
         }
     };
-})(jQuery, window, document);
+    return $.fn.inputFilter;
+});
 
-//# sourceMappingURL=input-filter.js.map
+//# sourceMappingURL=input-filter.amd.js.map

@@ -2,3 +2,4 @@
 .vscode
 .tsconfig.json
 /node_modules
+/vendor
